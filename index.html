@@ -1,23 +1,84 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>Hexo | </title>
+    
+<link rel="stylesheet" href="/css/reset.css">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+    
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
+    
+<link rel="stylesheet" href="/css/markdown.css">
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+    
+<link rel="stylesheet" href="/css/fonts.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<meta name="generator" content="Hexo 6.2.0"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="header">
+    <a class="logo" href="/">Hexo</a>
+    <ul class="nav">
+        
+        <li><a href="/">首页</a></li>
+        
+        <li><a href="/archives">归档</a></li>
+        
+        <li><a href="/about">关于</a></li>
+        
+    </ul>
+</div>
+                
+                <div class="post-list">
+    
+    <div class="post">
+        <a class="post-title" href="/2022/08/16/%E6%B5%85%E8%B0%88%E2%80%9CADE%E6%95%88%E5%BA%94%E2%80%9D%E9%99%B7%E9%98%B1/">浅谈“ADE效应”陷阱</a>
+        <div class="post-except">
+            导语：ADE即抗体依赖增强。之前开发的登革病毒疫苗，还是西尼罗病毒疫苗，都被发现具有很强的ADE 效应，即针对E蛋白产生的抗体，会通过抗体的Fc受体结合巨噬细胞，并进入巨噬细胞，从而导致严重的细胞因子风暴。 这一ADE效应导致接种过西尼罗病毒疫苗的人反而更容易感染其他黄病毒（登革病毒、寨卡病毒！ 科学家早在1979年发表的《Nature》文章中就研究了黄病毒的 ADE 效应（Antibody-mediated enhancement of flavivirus replica
+            <a class="read-more" href="/2022/08/16/%E6%B5%85%E8%B0%88%E2%80%9CADE%E6%95%88%E5%BA%94%E2%80%9D%E9%99%B7%E9%98%B1/"> ... </a>
+        </div>
+        <div class="post-date">2022.08.16</div>
+    </div>
+    
+    <div class="post">
+        <a class="post-title" href="/2022/08/16/hello-world/">Hello World</a>
+        <div class="post-except">
+            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new &quot
+            <a class="read-more" href="/2022/08/16/hello-world/"> ... </a>
+        </div>
+        <div class="post-date">2022.08.16</div>
+    </div>
+    
+</div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+                <div class="footer">
+    <span>Copyright © 2022 Hexo</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>
