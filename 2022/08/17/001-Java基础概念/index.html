@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>Hexo | </title>
+    
+<link rel="stylesheet" href="/css/reset.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/markdown.css">
+
+    
+<link rel="stylesheet" href="/css/fonts.css">
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="post-header">
+    <a class="logo" href="/">Hexo</a>
+    <a class="go-home" href="/">
+        <svg width="8" height="14" viewBox="0 0 8 14">
+            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+                
+                <div class="post-main">
+
+    
+        <div class="post-main-title">
+            
+        </div>
+        <div class="post-meta">
+            2022-08-17
+        </div>
+    
+
+    <div class="post-md">
+        <h1 id="001-Java基础概念"><a href="#001-Java基础概念" class="headerlink" title="001-Java基础概念"></a>001-Java基础概念</h1><h3 id="1、关键字"><a href="#1、关键字" class="headerlink" title="1、关键字"></a>1、关键字</h3><blockquote>
+<p>关键字：被 java 语言赋予特殊含义的单词</p>
+</blockquote>
+<p><strong>关键字的特点：</strong><br>(1) 全部都是小写的字母<br>(2) 高亮显示</p>
+<blockquote>
+<p>public ：起到一个限制类名需要和文件名一致<br>class：它代表我们后面写的代码是属于类的，类是java 最小的单位<br>static：<br>void：<br>main：jave 识别程序入口</p>
+</blockquote>
+<p><strong>注意</strong>：main 这个是方法名不属于关键字，但是比关键字还要重要，因为java 程序只能识别这个入门。</p>
+<h3 id="2、常量"><a href="#2、常量" class="headerlink" title="2、常量"></a>2、常量</h3><blockquote>
+<p>常量概述：在程序中直接写出来的值，或者在程序中不可以发生改变的值</p>
+</blockquote>
+<h5 id="2-1-常量分类"><a href="#2-1-常量分类" class="headerlink" title="2.1 常量分类"></a>2.1 常量分类</h5><ol>
+<li>字符串常量：即双引号括起来的内容。例如：”Hello World”</li>
+<li>整数常量：包含整数和负数</li>
+<li>小数常量：带有小数点的数字</li>
+<li>字符常量：单引号括起来的单个内容 。例如：’我’ 、’0’ 、’A’；在数组里面[‘A’] 算自动类型转换</li>
+<li>布尔常量：true【正确，成立】 false【错误，不成立】</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">//字符串常量 双引号扩起来的内容  &quot;Hello World&quot;    &quot;欢迎来到广州&quot;</span></span><br><span class="line">    System.out.println(<span class="string">&quot;-------字符串常量-------&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;欢迎来到广州&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;aaa123&quot;</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;-------整数常量-------&quot;</span>);</span><br><span class="line">    System.out.println(<span class="number">5</span>);</span><br><span class="line">    System.out.println(-<span class="number">10</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;-------小数常量-------&quot;</span>);</span><br><span class="line">    System.out.println(<span class="number">5.0</span>);</span><br><span class="line">    System.out.println(<span class="number">5.21</span>);</span><br><span class="line">    System.out.println(-<span class="number">13.14</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;-------字符常量-------&quot;</span>);</span><br><span class="line">    <span class="comment">// 字符常量    单引号扩起来的单个内容  &#x27;我&#x27;  &#x27;0&#x27;  &#x27;A&#x27;</span></span><br><span class="line">    System.out.println(<span class="string">&#x27;我&#x27;</span>);</span><br><span class="line">    System.out.println(<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">    System.out.println(<span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">  <span class="comment">//  System.out.println(&#x27;10&#x27;); //java: 未结束的字符文字</span></span><br><span class="line">  <span class="comment">//  System.out.println(&#x27;&#x27;); //java: 空字符文字</span></span><br><span class="line">    System.out.println(<span class="string">&#x27; &#x27;</span>);<span class="comment">//可以放入一个空格</span></span><br><span class="line">    System.out.println(<span class="string">&quot;-------布尔常量-------&quot;</span>);</span><br><span class="line">    System.out.println(<span class="literal">true</span>);</span><br><span class="line">    System.out.println(<span class="literal">false</span>);</span><br><span class="line">    System.out.println(<span class="number">8</span> &gt; <span class="number">7</span>); <span class="comment">// true</span></span><br><span class="line">    System.out.println(<span class="number">8</span> &lt; <span class="number">7</span>); <span class="comment">//false</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、变量"><a href="#3、变量" class="headerlink" title="3、变量"></a>3、变量</h3><blockquote>
+<p>变量概述：在程序中可以发生改变的值。作用：可以用来保持一个数据</p>
+</blockquote>
+<h5 id="3-1-定义变量名的格式"><a href="#3-1-定义变量名的格式" class="headerlink" title="3.1 定义变量名的格式"></a>3.1 定义变量名的格式</h5><p>数据类型	 变量名 &#x3D; 初始值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">//例如我们的微信钱包，它的值就是会经常变化，所以，在程序中，我们需要定义一个变量，用来保存数据</span></span><br><span class="line">    <span class="comment">//一开始 我们的微信余额 假设是 0  钱是一个小数</span></span><br><span class="line">    <span class="comment">//小数 在程序中对应的数据类型 是 double  , 数据类型 变量名 = 初始值;</span></span><br><span class="line">    <span class="type">double</span> <span class="variable">money</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    System.out.println(money);</span><br><span class="line">    <span class="comment">//假设我们抢红包，抢到 9.99 元</span></span><br><span class="line">    money = money + <span class="number">9.99</span>;</span><br><span class="line">    System.out.println(money);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-2-变量名（标识符）如何定义"><a href="#3-2-变量名（标识符）如何定义" class="headerlink" title="3.2 变量名（标识符）如何定义"></a>3.2 变量名（标识符）如何定义</h5><ol>
+<li>由字母、数字、下划线_ 、美元符号$ 组成</li>
+<li>第一个字符不能是数字</li>
+<li>不能使用java 中的关键字作为标识符</li>
+<li>标识符区分大小写</li>
+<li>采用小驼峰命名法(即除第一个字母不大写外，其余字符首字母大写)</li>
+<li>起名要见明知意（尽量使用英文)</li>
+</ol>
+<blockquote>
+<p><strong>类名要采取大驼峰命名</strong></p>
+</blockquote>
+<h3 id="4、数据类型"><a href="#4、数据类型" class="headerlink" title="4、数据类型"></a>4、数据类型</h3><blockquote>
+<p>数据类型的作用：用来规定保存的数据的类型</p>
+</blockquote>
+<h5 id="4-1-数据类型分类"><a href="#4-1-数据类型分类" class="headerlink" title="4.1 数据类型分类"></a>4.1 数据类型分类</h5><p><strong>(1)整型</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">byte   	1字节   	-128~127</span><br><span class="line">short  	2字节  	-32768 ~  32767</span><br><span class="line">int		4字节		-2147483648  ~  2147483647  21亿左右</span><br><span class="line">long		8字节		9223372036854775807 ~ -9223372036854775808  19位数</span><br></pre></td></tr></table></figure>
+
+<p><strong>(2)浮点型</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">float	4字节		- 1.4E-45   ~ 3.4E38    E38 代表 10的38次方   38位数 </span><br><span class="line">double	8字节		- 4.9E-324  ~ 1.79E308  308位数</span><br></pre></td></tr></table></figure>
+
+<p><strong>(3) 字符型</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">char	2字节			0 ~ 65535</span><br></pre></td></tr></table></figure>
+
+<p><strong>(4) 布尔型</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">boolean	1字节		ture、false</span><br></pre></td></tr></table></figure>
+
+<p><strong>数据类型的排序</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">byte &lt; short &lt; int &lt; long &lt; float &lt; double</span><br><span class="line">char &lt; int &lt; long &lt; float &lt; double</span><br><span class="line"></span><br><span class="line">Java中，整数默认是int类型，浮点数默认是double类型</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;-----------整数----------&quot;</span>);</span><br><span class="line">    <span class="type">byte</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">    <span class="type">short</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">10000</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> <span class="number">1234567890</span>;   <span class="comment">//如果是使用的是整数 默认使用int</span></span><br><span class="line">    <span class="comment">//定义long类型，如果超过了21亿，你需要加上一个L 【可以大写 也可以小写】</span></span><br><span class="line">    <span class="type">long</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">12345678900L</span>;</span><br><span class="line">    System.out.println(<span class="string">&quot;-----------小数----------&quot;</span>);</span><br><span class="line">    <span class="comment">//定义float类型，你需要加上一个F 【可以大写 也可以小写】</span></span><br><span class="line">    <span class="type">float</span> <span class="variable">e</span> <span class="operator">=</span> <span class="number">13.14F</span>;</span><br><span class="line">    <span class="type">double</span> <span class="variable">f</span> <span class="operator">=</span> <span class="number">5.2</span>;  <span class="comment">//其实使用小数的时候 默认使用 double</span></span><br><span class="line">    System.out.println(<span class="string">&quot;-----------字符----------&quot;</span>);</span><br><span class="line">    <span class="type">char</span> <span class="variable">g</span> <span class="operator">=</span> <span class="string">&#x27;我&#x27;</span>;</span><br><span class="line">    System.out.println(<span class="string">&quot;-----------布尔----------&quot;</span>);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">h</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">i</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">    System.out.println(<span class="string">&quot;-----------字符串----------&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;欢迎来到广州&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5、数据类型转换"><a href="#5、数据类型转换" class="headerlink" title="5、数据类型转换"></a>5、数据类型转换</h3><blockquote>
+<p>导语：计算机在运行的时候，实际上只能识别一种数据类型。所以计算机在做运算的时候，它会对数据做类型的转换。</p>
+</blockquote>
+<h5 id="5-1自动类型转换"><a href="#5-1自动类型转换" class="headerlink" title="5.1自动类型转换"></a>5.1自动类型转换</h5><p><strong>自动类型转换：即把小的数据类型自动转换为大的数据类型</strong></p>
+<blockquote>
+<p><strong>byte &lt; short &lt; char &lt; int &lt; long &lt; float &lt;double</strong></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/*	因为a是int类型</span></span><br><span class="line"><span class="comment">    b是double类型,</span></span><br><span class="line"><span class="comment">    计算机会把 int 先提升为double</span></span><br><span class="line"><span class="comment">    double + double -&gt; double*/</span></span><br><span class="line">    </span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">13.14</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">c</span> <span class="operator">=</span> a + b;</span><br><span class="line">        System.out.println(c);</span><br><span class="line">        System.out.println(<span class="string">&quot;----------------举例子---------------&quot;</span>);</span><br><span class="line">        <span class="comment">//byte &lt;short &lt; char &lt;int &lt; long &lt; float  &lt; double</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">aa</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">long</span> <span class="variable">bb</span> <span class="operator">=</span> aa;</span><br><span class="line">        <span class="type">byte</span> <span class="variable">cc</span> <span class="operator">=</span> <span class="number">13</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">dd</span> <span class="operator">=</span> cc;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-2-强制类型转换"><a href="#5-2-强制类型转换" class="headerlink" title="5.2 强制类型转换"></a>5.2 强制类型转换</h5><blockquote>
+<p><strong>强制类型转换的格式: 目标数据类型 变量名 &#x3D; (目标数据类型) 值;</strong></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo02</span> &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        byte &lt;short &lt; char &lt;int &lt; long &lt; float  &lt; double</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            如果把大的数据，变成小的类型 -&gt; 强制类型转换</span></span><br><span class="line"><span class="comment">            强制类型转换的格式:</span></span><br><span class="line"><span class="comment">                    目标数据类型 变量名 = (目标数据类型) 值;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            因为强制类型转换，会导致精度的丢失。【很少用】</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">double</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">13.14</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> (<span class="type">int</span>)a;</span><br><span class="line">        System.out.println(b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+</div>
+                <div class="footer">
+    <span>Copyright © 2022 Hexo</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>
