@@ -101,7 +101,7 @@
       </categories>
   </entry>
   <entry>
-    <title>德鲁克谈【自我管理】----史上最受欢迎的文章</title>
+    <title>德鲁克谈【自我管理】史上最受欢迎的文章</title>
     <url>/2022/08/26/%E6%AF%8F%E5%91%A8%E8%BD%AC%E8%BD%BD/%E5%BE%B7%E9%B2%81%E5%85%8B%E8%B0%88%E3%80%90%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E3%80%91%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%8F%97%E6%AC%A2%E8%BF%8E%E7%9A%84%E6%96%87%E7%AB%A0/</url>
     <content><![CDATA[<p><strong>导读</strong>：本文最早刊登于《哈佛商业评论》，是其历史最佳文章之一。作者彼得·德鲁克是现代管理学之父，其著作影响了数代追求创新以及最佳管理实践的学者和企业家们，各类商业管理课程也都深受彼得·德鲁克思想的影响。本文后被收录在德鲁克的著作《21 世纪的管理挑战》中。非常值得一读再读。</p>
 <p>我们生活的时代充满着前所未有的机会：<strong>如果你有雄心，又不乏智慧，那么不管你从何处起步，你都可以沿着自己所选择的道路登上事业的顶峰。</strong></p>
@@ -273,7 +273,7 @@
 <p>于是，人们对自我管理的需要在人类事务中掀起了一场革命。</p>
 ]]></content>
       <categories>
-        <category>三千世界</category>
+        <category>每周转载</category>
       </categories>
       <tags>
         <tag>每周转载</tag>
@@ -1737,32 +1737,6 @@
       </tags>
   </entry>
   <entry>
-    <title>IDEA安装SOP</title>
-    <url>/2022/08/21/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/IDEA%E5%AE%89%E8%A3%85SOP/</url>
-    <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
-<p>可以自行到官方网站自行下载，网址为：<a href="https://www.jetbrains.com/idea">https://www.jetbrains.com/idea</a><br>本文演示的IDEA版本为 IntelliJ IDEA 2021.1.1 x64</p>
-<h3 id="2、安装IDEA图解"><a href="#2、安装IDEA图解" class="headerlink" title="2、安装IDEA图解"></a>2、安装IDEA图解</h3><h5 id="2-1双击安装包，点击next"><a href="#2-1双击安装包，点击next" class="headerlink" title="2.1双击安装包，点击next"></a>2.1双击安装包，点击next</h5><p><img src="https://img-blog.csdnimg.cn/a7f6748c720e4376a9cba9ce1ea34eca.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-2点击修改Browse修改安装路径，然后点击next"><a href="#2-2点击修改Browse修改安装路径，然后点击next" class="headerlink" title="2.2点击修改Browse修改安装路径，然后点击next"></a>2.2点击修改Browse修改安装路径，然后点击next</h5><p><strong>注意：安装路径不能有中文或者有空格</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/2d3f5fa9867142519722d211ed7246a1.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-3-看图勾选，然后点击next"><a href="#2-3-看图勾选，然后点击next" class="headerlink" title="2.3 看图勾选，然后点击next"></a>2.3 看图勾选，然后点击next</h5><p><img src="https://img-blog.csdnimg.cn/1a18d151e1d248dd85e2f02481fc9e53.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-4-点击Install-准备安装"><a href="#2-4-点击Install-准备安装" class="headerlink" title="2.4 点击Install , 准备安装"></a>2.4 点击Install , 准备安装</h5><p><img src="https://img-blog.csdnimg.cn/a10206a5482a405dbed1709807fc2148.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-5等进度条读取完毕之后，会有最终页面提示，然后点击Finish"><a href="#2-5等进度条读取完毕之后，会有最终页面提示，然后点击Finish" class="headerlink" title="2.5等进度条读取完毕之后，会有最终页面提示，然后点击Finish"></a>2.5等进度条读取完毕之后，会有最终页面提示，然后点击Finish</h5><p><img src="https://img-blog.csdnimg.cn/ace584d408134e2ca1dba53bc96757ac.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-6-第一次启动会询问，是否导入一些设置-选择第二个不导入，保持默认设置，再点OK"><a href="#2-6-第一次启动会询问，是否导入一些设置-选择第二个不导入，保持默认设置，再点OK" class="headerlink" title="2.6 第一次启动会询问，是否导入一些设置.选择第二个不导入，保持默认设置，再点OK"></a>2.6 第一次启动会询问，是否导入一些设置.选择第二个不导入，保持默认设置，再点OK</h5><p><img src="https://img-blog.csdnimg.cn/9ee3da7f4f7a410b86278db672ccc19e.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-7-选择背景主题"><a href="#2-7-选择背景主题" class="headerlink" title="2.7 选择背景主题"></a>2.7 选择背景主题</h5><p><strong>建议选择白色，代码错了可以很清晰看出</strong>,选择完毕，继续next<br><img src="https://img-blog.csdnimg.cn/681e6d68384b4fddb270d17fdc864b52.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-8-本界面让我们购买Idea"><a href="#2-8-本界面让我们购买Idea" class="headerlink" title="2.8 本界面让我们购买Idea"></a>2.8 本界面让我们购买Idea</h5><p>因为我们是学习阶段，所以可以使用免费30天<br>点击第一排第二个。Evaluate for free</p>
-<p><img src="https://img-blog.csdnimg.cn/83808e04f2ab46ec846cdf8de2a88bff.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-9-点击蓝色的Evaluate-就可以开始免费试用30天了"><a href="#2-9-点击蓝色的Evaluate-就可以开始免费试用30天了" class="headerlink" title="2.9 点击蓝色的Evaluate , 就可以开始免费试用30天了"></a>2.9 点击蓝色的Evaluate , 就可以开始免费试用30天了</h5><p><img src="https://img-blog.csdnimg.cn/35ef673b5b6543128799423e1c3e43fa.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-10-当看到这个界面，就表示idea已经安装成功了"><a href="#2-10-当看到这个界面，就表示idea已经安装成功了" class="headerlink" title="2.10  当看到这个界面，就表示idea已经安装成功了"></a>2.10  当看到这个界面，就表示idea已经安装成功了</h5><p><img src="https://img-blog.csdnimg.cn/46ea26c1c72e4154b4a73f1e7477a2c0.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="2-11-破解Idea"><a href="#2-11-破解Idea" class="headerlink" title="2.11 破解Idea"></a>2.11 破解Idea</h5><p>网址：<a href="https://www.exception.site/essay/idea-reset-eval">https://www.exception.site/essay/idea-reset-eval</a></p>
-]]></content>
-      <categories>
-        <category>SOP操作手册</category>
-      </categories>
-      <tags>
-        <tag>SOP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JDK环境变量配置SOP</title>
     <url>/2022/08/21/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/JDK%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AESOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
@@ -1797,6 +1771,32 @@
 <li>在变量值的最前面输入：**%JAVA_HOME%\bin; **<br>其中使用两个百分号包住 JAVA_HOME,表示引用了 JAVA_HOME 里面的值。<br>分号，表示多个环境变量之间的间隔。<strong>一定不能漏</strong><br><strong>注意：所以符号一定要是英文状态下的。</strong><br><img src="https://img-blog.csdnimg.cn/18e13a8e04034928a83896a0d277199d.png#pic_center" alt="在这里插入图片描述"></li>
 </ul>
 <h3 id="4、打开CMD，输入java回车。"><a href="#4、打开CMD，输入java回车。" class="headerlink" title="4、打开CMD，输入java回车。"></a>4、打开CMD，输入java回车。</h3><p><img src="https://img-blog.csdnimg.cn/36e5efc2260e4392868ac2ff1317053e.png#pic_center" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>SOP操作手册</category>
+      </categories>
+      <tags>
+        <tag>SOP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IDEA安装SOP</title>
+    <url>/2022/08/21/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/IDEA%E5%AE%89%E8%A3%85SOP/</url>
+    <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
+<p>可以自行到官方网站自行下载，网址为：<a href="https://www.jetbrains.com/idea">https://www.jetbrains.com/idea</a><br>本文演示的IDEA版本为 IntelliJ IDEA 2021.1.1 x64</p>
+<h3 id="2、安装IDEA图解"><a href="#2、安装IDEA图解" class="headerlink" title="2、安装IDEA图解"></a>2、安装IDEA图解</h3><h5 id="2-1双击安装包，点击next"><a href="#2-1双击安装包，点击next" class="headerlink" title="2.1双击安装包，点击next"></a>2.1双击安装包，点击next</h5><p><img src="https://img-blog.csdnimg.cn/a7f6748c720e4376a9cba9ce1ea34eca.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-2点击修改Browse修改安装路径，然后点击next"><a href="#2-2点击修改Browse修改安装路径，然后点击next" class="headerlink" title="2.2点击修改Browse修改安装路径，然后点击next"></a>2.2点击修改Browse修改安装路径，然后点击next</h5><p><strong>注意：安装路径不能有中文或者有空格</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/2d3f5fa9867142519722d211ed7246a1.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-3-看图勾选，然后点击next"><a href="#2-3-看图勾选，然后点击next" class="headerlink" title="2.3 看图勾选，然后点击next"></a>2.3 看图勾选，然后点击next</h5><p><img src="https://img-blog.csdnimg.cn/1a18d151e1d248dd85e2f02481fc9e53.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-4-点击Install-准备安装"><a href="#2-4-点击Install-准备安装" class="headerlink" title="2.4 点击Install , 准备安装"></a>2.4 点击Install , 准备安装</h5><p><img src="https://img-blog.csdnimg.cn/a10206a5482a405dbed1709807fc2148.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-5等进度条读取完毕之后，会有最终页面提示，然后点击Finish"><a href="#2-5等进度条读取完毕之后，会有最终页面提示，然后点击Finish" class="headerlink" title="2.5等进度条读取完毕之后，会有最终页面提示，然后点击Finish"></a>2.5等进度条读取完毕之后，会有最终页面提示，然后点击Finish</h5><p><img src="https://img-blog.csdnimg.cn/ace584d408134e2ca1dba53bc96757ac.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-6-第一次启动会询问，是否导入一些设置-选择第二个不导入，保持默认设置，再点OK"><a href="#2-6-第一次启动会询问，是否导入一些设置-选择第二个不导入，保持默认设置，再点OK" class="headerlink" title="2.6 第一次启动会询问，是否导入一些设置.选择第二个不导入，保持默认设置，再点OK"></a>2.6 第一次启动会询问，是否导入一些设置.选择第二个不导入，保持默认设置，再点OK</h5><p><img src="https://img-blog.csdnimg.cn/9ee3da7f4f7a410b86278db672ccc19e.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-7-选择背景主题"><a href="#2-7-选择背景主题" class="headerlink" title="2.7 选择背景主题"></a>2.7 选择背景主题</h5><p><strong>建议选择白色，代码错了可以很清晰看出</strong>,选择完毕，继续next<br><img src="https://img-blog.csdnimg.cn/681e6d68384b4fddb270d17fdc864b52.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-8-本界面让我们购买Idea"><a href="#2-8-本界面让我们购买Idea" class="headerlink" title="2.8 本界面让我们购买Idea"></a>2.8 本界面让我们购买Idea</h5><p>因为我们是学习阶段，所以可以使用免费30天<br>点击第一排第二个。Evaluate for free</p>
+<p><img src="https://img-blog.csdnimg.cn/83808e04f2ab46ec846cdf8de2a88bff.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-9-点击蓝色的Evaluate-就可以开始免费试用30天了"><a href="#2-9-点击蓝色的Evaluate-就可以开始免费试用30天了" class="headerlink" title="2.9 点击蓝色的Evaluate , 就可以开始免费试用30天了"></a>2.9 点击蓝色的Evaluate , 就可以开始免费试用30天了</h5><p><img src="https://img-blog.csdnimg.cn/35ef673b5b6543128799423e1c3e43fa.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-10-当看到这个界面，就表示idea已经安装成功了"><a href="#2-10-当看到这个界面，就表示idea已经安装成功了" class="headerlink" title="2.10  当看到这个界面，就表示idea已经安装成功了"></a>2.10  当看到这个界面，就表示idea已经安装成功了</h5><p><img src="https://img-blog.csdnimg.cn/46ea26c1c72e4154b4a73f1e7477a2c0.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="2-11-破解Idea"><a href="#2-11-破解Idea" class="headerlink" title="2.11 破解Idea"></a>2.11 破解Idea</h5><p>网址：<a href="https://www.exception.site/essay/idea-reset-eval">https://www.exception.site/essay/idea-reset-eval</a></p>
 ]]></content>
       <categories>
         <category>SOP操作手册</category>
