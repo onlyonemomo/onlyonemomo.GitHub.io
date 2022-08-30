@@ -72,8 +72,115 @@
       </tags>
   </entry>
   <entry>
+    <title>模块化之ThreadLocal</title>
+    <url>/2022/08/30/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/004-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BThreadLocal/</url>
+    <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
+<p><strong>导语</strong>：ThreadLocal 并不是一个Thread，而是Thread的局部变量。ThreadLocal为每个线程提供单独一份存储空间，具有线程隔离的效果，只有在线程内才能获取到对应的值，线程外则不能访问。客户端发送的每次请求，后端的Tomcat服务器都会分配一个单独的线程来处理请求！</p>
+<h6 id="ThreadLocal常用方法："><a href="#ThreadLocal常用方法：" class="headerlink" title="ThreadLocal常用方法："></a>ThreadLocal常用方法：</h6><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public void set(T value)</td>
+<td>设置当前线程的线程局部变量的值</td>
+</tr>
+<tr>
+<td>public T get()</td>
+<td>返回当前线程所对应的线程局部变量的值</td>
+</tr>
+<tr>
+<td>public void remove()</td>
+<td>移除当前线程的线程局部变量</td>
+</tr>
+</tbody></table>
+<h6 id="提供的BaseContext工具类来操作ThreadLocal"><a href="#提供的BaseContext工具类来操作ThreadLocal" class="headerlink" title="提供的BaseContext工具类来操作ThreadLocal"></a>提供的BaseContext工具类来操作ThreadLocal</h6><p><img src="D:\download\record\blog\04-常用记录\面试\ThreadLocal.assets\image-20220822193722978.png" alt="image-20220822193722978"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BaseContext</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;Long&gt; threadLocal = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setCurrentId</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">        threadLocal.set(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Long <span class="title function_">getCurrentId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> threadLocal.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">removeCurrentId</span><span class="params">()</span> &#123;</span><br><span class="line">        threadLocal.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>举例：在员工管理页面，需要记录创建者的ID和修改者ID，这个时候就需要<strong>动态设置创建人和修改人</strong></p>
+<p>图2：JWT拦截器设置当前登录员工的ThreadLocal  ID</p>
+<p><img src="D:\download\record\blog\04-常用记录\面试\ThreadLocal.assets\image-20220822194238022.png" alt="image-20220822194238022"></p>
+<p>图3：在方法上获取当前登录员工的ThreadLocal  ID</p>
+<p><img src="D:\download\record\blog\04-常用记录\面试\ThreadLocal.assets\image-20220822194353970.png" alt="image-20220822194353970"></p>
+<p>线程本地变量是在JWt拦截器里面的，记得要注册拦截器让它生效。</p>
+<h6 id="BaseContext工具类"><a href="#BaseContext工具类" class="headerlink" title="BaseContext工具类"></a>BaseContext工具类</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BaseContext</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;Long&gt; threadLocal = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setCurrentId</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">        threadLocal.set(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Long <span class="title function_">getCurrentId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> threadLocal.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">removeCurrentId</span><span class="params">()</span> &#123;</span><br><span class="line">        threadLocal.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注册拦截器举例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebMvcConfiguration</span> <span class="keyword">extends</span> <span class="title class_">WebMvcConfigurationSupport</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JwtTokenAdminInterceptor jwtTokenAdminInterceptor;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JwtTokenUserInterceptor jwtTokenUserInterceptor;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;开始注册自定义拦截器：&#123;&#125;&quot;</span>, jwtTokenAdminInterceptor);</span><br><span class="line">        registry.addInterceptor(jwtTokenAdminInterceptor)</span><br><span class="line">                .addPathPatterns(<span class="string">&quot;/admin/**&quot;</span>)</span><br><span class="line">                .excludePathPatterns(<span class="string">&quot;/admin/employee/login&quot;</span>);</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">&quot;开始注册自定义拦截器：&#123;&#125;&quot;</span>, jwtTokenUserInterceptor);</span><br><span class="line">        registry.addInterceptor(jwtTokenUserInterceptor)</span><br><span class="line">                .addPathPatterns(<span class="string">&quot;/user/**&quot;</span>)</span><br><span class="line">                .excludePathPatterns(<span class="string">&quot;/user/user/login&quot;</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>项目模块化</category>
+      </categories>
+      <tags>
+        <tag>模块化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>模块化之阿里云上传文件</title>
+    <url>/2022/08/30/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/007-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8B%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
+<h5 id="阿里云工具类"><a href="#阿里云工具类" class="headerlink" title="阿里云工具类"></a>阿里云工具类</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AliOSSUtil</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String endpoint;</span><br><span class="line">    <span class="keyword">private</span> String accessKeyId;</span><br><span class="line">    <span class="keyword">private</span> String accessKeySecret;</span><br><span class="line">    <span class="keyword">private</span> String bucketName;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 文件上传</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bytes</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> objectName</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">upload</span><span class="params">(<span class="type">byte</span>[] bytes, String objectName)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建OSSClient实例。</span></span><br><span class="line">        <span class="type">OSS</span> <span class="variable">ossClient</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OSSClientBuilder</span>().build(endpoint, accessKeyId, accessKeySecret);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 创建PutObject请求。</span></span><br><span class="line">            ossClient.putObject(bucketName, objectName, <span class="keyword">new</span> <span class="title class_">ByteArrayInputStream</span>(bytes));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (OSSException oe) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Caught an OSSException, which means your request made it to OSS, &quot;</span></span><br><span class="line">                    + <span class="string">&quot;but was rejected with an error response for some reason.&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;Error Message:&quot;</span> + oe.getErrorMessage());</span><br><span class="line">            System.out.println(<span class="string">&quot;Error Code:&quot;</span> + oe.getErrorCode());</span><br><span class="line">            System.out.println(<span class="string">&quot;Request ID:&quot;</span> + oe.getRequestId());</span><br><span class="line">            System.out.println(<span class="string">&quot;Host ID:&quot;</span> + oe.getHostId());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClientException ce) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Caught an ClientException, which means the client encountered &quot;</span></span><br><span class="line">                    + <span class="string">&quot;a serious internal problem while trying to communicate with OSS, &quot;</span></span><br><span class="line">                    + <span class="string">&quot;such as not being able to access the network.&quot;</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;Error Message:&quot;</span> + ce.getMessage());</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (ossClient != <span class="literal">null</span>) &#123;</span><br><span class="line">                ossClient.shutdown();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//文件访问路径规则 https://BucketName.Endpoint/ObjectName</span></span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">stringBuilder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;https://&quot;</span>);</span><br><span class="line">        stringBuilder</span><br><span class="line">                .append(bucketName)</span><br><span class="line">                .append(<span class="string">&quot;.&quot;</span>)</span><br><span class="line">                .append(endpoint)</span><br><span class="line">                .append(<span class="string">&quot;/&quot;</span>)</span><br><span class="line">                .append(objectName);</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">&quot;文件上传到:&#123;&#125;&quot;</span>, stringBuilder.toString());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> stringBuilder.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OssConfiguration</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过Spring管理对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> aliOSSProperties</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="keyword">public</span> AliOSSUtil <span class="title function_">aliOSSUtil</span><span class="params">(AliOSSProperties aliOSSProperties)</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;开始创建阿里云OSS工具类...&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">AliOSSUtil</span>(</span><br><span class="line">                aliOSSProperties.getEndpoint(),</span><br><span class="line">                aliOSSProperties.getAccessKeyId(),</span><br><span class="line">                aliOSSProperties.getAccessKeySecret(),</span><br><span class="line">                aliOSSProperties.getBucketName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="通用方法控制器"><a href="#通用方法控制器" class="headerlink" title="通用方法控制器"></a>通用方法控制器</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通用方法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/admin/common&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;通用接口&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommonController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AliOSSUtil aliOSSUtil;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/upload&quot;)</span></span><br><span class="line">    <span class="meta">@ApiOperation(&quot;文件上传&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;String&gt; <span class="title function_">upload</span><span class="params">(MultipartFile file)</span>&#123;</span><br><span class="line">        log.info(file.getName());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//原始文件名</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">originalFilename</span> <span class="operator">=</span> file.getOriginalFilename();</span><br><span class="line">        <span class="type">String</span> <span class="variable">extension</span> <span class="operator">=</span> originalFilename.substring(originalFilename.lastIndexOf(<span class="string">&quot;.&quot;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将文件上传到阿里云</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> UUID.randomUUID().toString() + extension;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">filePath</span> <span class="operator">=</span> aliOSSUtil.upload(file.getBytes(), fileName);</span><br><span class="line">            <span class="keyword">return</span> R.success(filePath);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;文件上传失败:&#123;&#125;&quot;</span>,e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> R.error(MessageConstant.UPLOAD_FAILED);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>项目模块化</category>
+      </categories>
+      <tags>
+        <tag>模块化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BaseContext工具类</title>
+    <url>/2022/08/30/%E5%B7%A5%E5%85%B7%E7%B1%BB/BaseContext%E5%B7%A5%E5%85%B7%E7%B1%BB/</url>
+    <content><![CDATA[<p><strong>导语</strong>：在《娱乐至死》里面两个著名的预言：奥威尔害怕的是真理被隐瞒，赫胥黎担心的是真理被淹没在无聊烦琐的世事中。在互联网的世界里，我们恰恰走向了赫胥黎式的预言，有时候百度两小时，有效资讯五分钟。在工具类这个栏目，我想收集一些常用的Utils，以免书到用时方恨少的尴尬！</p>
+<p>提供的BaseContext工具类来操作ThreadLocal</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BaseContext</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;Long&gt; threadLocal = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setCurrentId</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">        threadLocal.set(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Long <span class="title function_">getCurrentId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> threadLocal.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">removeCurrentId</span><span class="params">()</span> &#123;</span><br><span class="line">        threadLocal.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>工具类</category>
+      </categories>
+      <tags>
+        <tag>Util</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《挪威的森林》读后感</title>
+    <url>/2022/08/30/%E4%B8%89%E5%8D%83%E4%B8%96%E7%95%8C/%E3%80%8A%E6%8C%AA%E5%A8%81%E7%9A%84%E6%A3%AE%E6%9E%97%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/</url>
+    <content><![CDATA[<p>曾记得高中时期阅读过一次《挪威的森林》，也就顺便翻翻，我也没觉得这本书有什么魅力。时隔五年之后，再重新看这本书，又有了不一样的感觉。</p>
+<p>刚看完这本书的时候总有些说不清道不明的感觉，直到我偶然直接看电影解说才猛然想起这种情绪的来源。《挪威的森林》就如同中国武侠电影里的江湖那般，大漠孤烟长河落日，侠骨柔情忠肝义胆。又像美国西部片那样，黄沙漫漫，牛仔悍匪，惩恶扬善。挪威的森林就是一个时代的符号。</p>
+<p>村上春树用独特的手法送别了一个名为’青春’的时代。这是一本自我成长的书籍，当你读完这本书合上去的时候，仿佛背面显示出’青春奇妙物语全剧终’的画面感。看懂了这本书，青春也就结束了！</p>
+<p>这本书具有划时代意义，能与中国武侠的江湖，和美国西部片的世界相提并论。青春的话题永不过时，这才是这么多人追来看原因!</p>
+<p>摘录：</p>
+<p>名场面1：渡边的甜言蜜语</p>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">“最最喜欢你，绿子。”</span><br><span class="line"></span><br><span class="line">“什么程度？”</span><br><span class="line"></span><br><span class="line">“像喜欢春天的熊一样。”</span><br><span class="line"></span><br><span class="line">“春天的熊？”绿子再次扬起脸，“什么春天的熊？”</span><br><span class="line"></span><br><span class="line">“春天的原野里，你一个人正走着，对面走来一只可爱的小熊，浑身的毛活像天鹅绒，眼睛圆鼓鼓的。</span><br><span class="line"></span><br><span class="line">它对你说道：’你好，小姐，和我一块儿打滚玩好吗？’接着，你就和小熊抱在一起，顺着长满三叶草的山坡‘咕噜咕噜’滚下去，玩了整整一天。你说棒不棒？”</span><br><span class="line"></span><br><span class="line">“太棒了。”</span><br><span class="line"></span><br><span class="line">“我就这么喜欢你。”</span><br></pre></td></tr></table></figure>
+
+<p>名场面2：绿子不可理喻的爱</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">绿子说：</span><br><span class="line">“我所追求的，只是容忍我任性，百分之百的任性。比方说，我现在对你说想吃酥饼，你就什么都不顾得跑去买，气喘吁吁得跑回来递给我，说‘给，绿子，这就是酥饼。’可我却说：‘我又懒得吃这玩意儿了！’说着‘呼’地一声从窗口扔出。这就是我所追求的。”</span><br><span class="line"></span><br><span class="line">“这和爱似乎不大相合啊！” 他不无愕然地说。</span><br><span class="line">“相干！你不知道罢了，”绿子说，“对女孩子来说，这东西有时非常非常珍贵。”</span><br><span class="line">“就是把酥饼扔出窗口？”</span><br><span class="line">“是啊。我希望对方这样说：‘明白了，绿子。怪我不好，我本该估计到你又不想吃酥饼才是。我简直像驴粪蛋儿一样愚蠢透顶，为了表示歉意，让我再去给你买点别什么。什么好？巧克力饼干，还是奶酪饼？”</span><br><span class="line">“然后怎样呢？”</span><br><span class="line">“那我就好好爱他，报答他。”</span><br></pre></td></tr></table></figure>
+
+
+
+<p>巴黎评论对村上春树采访：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">《巴黎评论》：我总是更同情有幽默感的女孩。我想读者更容易接受充满幽默的恋情，想要让他们被严肃的爱情描写所打动则是一件难事。在《挪威的森林》里我从头到尾一直喜欢绿子这个角色。</span><br><span class="line"></span><br><span class="line">村上：我想大多数读者应该和你的感受相同，他们也都会选择绿子，当然小说的主人公最后也选择了绿子。然而，他有一部分自我一直处于另外一个世界，他无法抛弃那个世界，那是他的一部分、一个重要的部分。世上所有人的头脑中都有病态的部分，这块地方是人的组成部分之一。我们有理智的一半，也有疯狂的一半，我们在这两部分之间进行协调——我坚信这点。当我写作的时候我可以特别清晰地感觉到我意识中那个疯狂的部分——“疯狂”并不是最恰当的字眼，应该说“不平常的”、“不真实的”。当然，我最终必须回到真实的世界中来，重新恢复健全的意志。可是如果我没有疯狂、病态的那部分，我就不会是今天的我。换句话说，我的小说的主人公是有两个女人作为后盾的，对他来说，这两个缺一不可。《挪威的森林》是个典型的例子。</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>三千世界</category>
+      </categories>
+      <tags>
+        <tag>读书心得</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL高级之总结</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E6%80%BB%E7%BB%93/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/009-MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h5 id="1、能够使用SQL语句添加主键、外键、唯一、非空约束"><a href="#1、能够使用SQL语句添加主键、外键、唯一、非空约束" class="headerlink" title="1、能够使用SQL语句添加主键、外键、唯一、非空约束"></a>1、能够使用SQL语句添加主键、外键、唯一、非空约束</h5><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">主键约束: <span class="keyword">PRIMARY</span> KEY</span><br><span class="line">唯一约束: <span class="keyword">UNIQUE</span></span><br><span class="line">非空约束: <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">默认值约束: <span class="keyword">DEFAULT</span> 值</span><br><span class="line">外键约束: <span class="keyword">CONSTRAINT</span> 外键约束名 <span class="keyword">FOREIGN</span> KEY (外键字段名) <span class="keyword">REFERENCES</span> 主表(主键)</span><br></pre></td></tr></table></figure>
 
@@ -104,7 +211,7 @@
   </entry>
   <entry>
     <title>MySQL高级之事务</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E4%BA%8B%E5%8A%A1/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/008-MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E4%BA%8B%E5%8A%A1/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h5 id="1、需求"><a href="#1、需求" class="headerlink" title="1、需求"></a>1、需求<img src="https://img-blog.csdnimg.cn/538fbb006e304506a4077e0fe3e05d40.png#pic_center" alt="在这里插入图片描述"></h5><h5 id="2、环境搭建"><a href="#2、环境搭建" class="headerlink" title="2、环境搭建"></a>2、环境搭建</h5><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 创建账户表,包含 id, name, balance</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> account (</span><br><span class="line">	id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY AUTO_INCREMENT,</span><br><span class="line">	NAME <span class="type">VARCHAR</span>(<span class="number">20</span>),</span><br><span class="line">	balance <span class="keyword">DOUBLE</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 添加数据</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> account <span class="keyword">VALUES</span> </span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;张三&#x27;</span>, <span class="number">1000</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;李四&#x27;</span>, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
 
@@ -127,7 +234,7 @@
   </entry>
   <entry>
     <title>MySQL高级之多表查询</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/007-MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>创建部门表</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tb_dept (</span><br><span class="line">  id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY AUTO_INCREMENT,</span><br><span class="line">  NAME <span class="type">VARCHAR</span>(<span class="number">20</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_dept (NAME) <span class="keyword">VALUES</span> (<span class="string">&#x27;开发部&#x27;</span>),(<span class="string">&#x27;市场部&#x27;</span>),(<span class="string">&#x27;财务部&#x27;</span>),(<span class="string">&#x27;销售部&#x27;</span>);</span><br></pre></td></tr></table></figure>
@@ -234,7 +341,7 @@
   </entry>
   <entry>
     <title>MySQL高级之表多对多</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E8%A1%A8%E5%A4%9A%E5%AF%B9%E5%A4%9A/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/006-MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E8%A1%A8%E5%A4%9A%E5%AF%B9%E5%A4%9A/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <p>图1：<br><img src="https://img-blog.csdnimg.cn/0b6381036adf454fb8140d5a01dfc06d.png#pic_center" alt="在这里插入图片描述"></p>
 <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">多对多：</span><br><span class="line"><span class="bullet">    *</span> 如：订单 和 商品</span><br><span class="line"><span class="bullet">    *</span> 一个商品对应多个订单，一个订单包含多个商品</span><br><span class="line"></span><br><span class="line">实现方式：建立第三张中间表，中间表至少包含两个外键，分别关联两方主键</span><br></pre></td></tr></table></figure>
@@ -252,7 +359,7 @@
   </entry>
   <entry>
     <title>MySQL高级之约束</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E7%BA%A6%E6%9D%9F/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/005-MySQL%E9%AB%98%E7%BA%A7%E4%B9%8B%E7%BA%A6%E6%9D%9F/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h4 id="一、主键约束"><a href="#一、主键约束" class="headerlink" title="一、主键约束"></a>一、主键约束</h4><h5 id="1、创建表时添加主键"><a href="#1、创建表时添加主键" class="headerlink" title="1、创建表时添加主键"></a>1、创建表时添加主键</h5><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">创建表学生表st1, 包含字段<span class="built_in">(id</span>,<span class="built_in"> name</span>, age)<span class="built_in">将id</span>做为主键</span><br></pre></td></tr></table></figure>
 
@@ -318,7 +425,7 @@
   </entry>
   <entry>
     <title>MySQL基础之总结</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%80%BB%E7%BB%93/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/004-MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h3 id="一、能够使用SQL语句操作数据库"><a href="#一、能够使用SQL语句操作数据库" class="headerlink" title="一、能够使用SQL语句操作数据库"></a>一、能够使用SQL语句操作数据库</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">查看数据库: <span class="keyword">SHOW</span> DATABASES;</span><br><span class="line">创建数据库: <span class="keyword">CREATE</span> DATABASE 数据库名;</span><br><span class="line">删除数据库: <span class="keyword">DROP</span> DATABASE 数据库名;</span><br></pre></td></tr></table></figure>
 
@@ -352,7 +459,7 @@
   </entry>
   <entry>
     <title>MySQL基础之查询数据</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/003-MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h3 id="一、DQL操作表中记录环境搭建"><a href="#一、DQL操作表中记录环境搭建" class="headerlink" title="一、DQL操作表中记录环境搭建"></a>一、DQL操作表中记录环境搭建</h3><blockquote>
 <p><strong>细节:查询只是查看数据,不会修改表中数据</strong></p>
@@ -520,7 +627,7 @@
   </entry>
   <entry>
     <title>MySQL基础之增删改数据</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%A2%9E%E5%88%A0%E6%94%B9%E6%95%B0%E6%8D%AE/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/002-MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%A2%9E%E5%88%A0%E6%94%B9%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h3 id="一、DML操作表中记录环境搭建"><a href="#一、DML操作表中记录环境搭建" class="headerlink" title="一、DML操作表中记录环境搭建"></a>一、DML操作表中记录环境搭建</h3><figure class="highlight gcode"><table><tr><td class="code"><pre><span class="line">创建商品表<span class="comment">(goods)</span>包含: </span><br><span class="line">	商品名称<span class="comment">(name)</span>,</span><br><span class="line">	商品价格<span class="comment">(price)</span>,</span><br><span class="line">	商品销量<span class="comment">(sales_volume)</span>,</span><br><span class="line">	商品生产日期<span class="comment">(produced_date)</span></span><br></pre></td></tr></table></figure>
 
@@ -567,7 +674,7 @@
   </entry>
   <entry>
     <title>MySQL基础之操作数据库和表</title>
-    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E8%A1%A8/</url>
+    <url>/2022/08/29/SQL%E8%AF%AD%E5%8F%A5/001-MySQL%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E8%A1%A8/</url>
     <content><![CDATA[<p><strong>导语</strong>：SQL一直是初学者的痛点，尤其是多表查询的时候，往往让人感到手足无措。说起这个就想起了我初为新手程序员的尴尬，同事们经常安慰我多查几遍就好了！现在我整理一个SQL系列文档，希望能帮助初入职场的程序员避免那种尴尬之情，也算给曾经的我一个交代吧。</p>
 <h3 id="一、DML操作数据库"><a href="#一、DML操作数据库" class="headerlink" title="一、DML操作数据库"></a>一、DML操作数据库</h3><h5 id="1、查看所有数据库"><a href="#1、查看所有数据库" class="headerlink" title="1、查看所有数据库"></a>1、查看所有数据库</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHOW DATABASES;</span><br></pre></td></tr></table></figure>
 
@@ -619,7 +726,7 @@
   </entry>
   <entry>
     <title>java高级之动态SQL</title>
-    <url>/2022/08/28/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/java%E9%AB%98%E7%BA%A7%E4%B9%8B%E5%8A%A8%E6%80%81SQL/</url>
+    <url>/2022/08/28/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/007-java%E9%AB%98%E7%BA%A7%E4%B9%8B%E5%8A%A8%E6%80%81SQL/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《通往java之路》这个栏目，我不想表现出更多的功利主义。我希望在这个栏目中每一篇文章都有很强的可读性和趣味性，能让我闲暇之时也能好好的阅读。</p>
 <h3 id="一、动态SQL编写"><a href="#一、动态SQL编写" class="headerlink" title="一、动态SQL编写"></a>一、动态SQL编写</h3><p><strong>导入依赖</strong></p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--lombok--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.20<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -661,7 +768,7 @@
   </entry>
   <entry>
     <title>SpringBoot-整合Mybatis</title>
-    <url>/2022/08/28/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/SpringBoot-%E6%95%B4%E5%90%88Mybatis/</url>
+    <url>/2022/08/28/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/004-SpringBoot-%E6%95%B4%E5%90%88Mybatis/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《通往java之路》这个栏目，我不想表现出更多的功利主义。我希望在这个栏目中每一篇文章都有很强的可读性和趣味性，能让我闲暇之时也能好好的阅读。</p>
 <h3 id="图层结构介绍"><a href="#图层结构介绍" class="headerlink" title="图层结构介绍"></a>图层结构介绍</h3><p><img src="https://img-blog.csdnimg.cn/995c61c12ead4d66948a3966f61b29ac.png#pic_center" alt="在这里插入图片描述"></p>
 <h3 id="1、MySQL环境搭建"><a href="#1、MySQL环境搭建" class="headerlink" title="1、MySQL环境搭建"></a>1、MySQL环境搭建</h3><p><strong>创建表导入数据</strong></p>
@@ -701,7 +808,7 @@
   </entry>
   <entry>
     <title>模块化之Redis设置营业状态</title>
-    <url>/2022/08/28/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BRedis%E8%AE%BE%E7%BD%AE%E8%90%A5%E4%B8%9A%E7%8A%B6%E6%80%81/</url>
+    <url>/2022/08/28/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/008-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BRedis%E8%AE%BE%E7%BD%AE%E8%90%A5%E4%B8%9A%E7%8A%B6%E6%80%81/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
 <h6 id="编写Redis配置类"><a href="#编写Redis配置类" class="headerlink" title="编写Redis配置类"></a>编写Redis配置类</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisConfiguration</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="keyword">public</span> RedisTemplate <span class="title function_">redisTemplate</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span>&#123;</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">&quot;开始创建redis模板类...&quot;</span>);</span><br><span class="line">        <span class="type">RedisTemplate</span> <span class="variable">redisTemplate</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RedisTemplate</span>();</span><br><span class="line">        redisTemplate.setKeySerializer(<span class="keyword">new</span> <span class="title class_">StringRedisSerializer</span>());</span><br><span class="line">        redisTemplate.setConnectionFactory(redisConnectionFactory);</span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -722,7 +829,7 @@
   </entry>
   <entry>
     <title>模块化之PageHelper.startPage</title>
-    <url>/2022/08/28/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BPageHelper.startPage/</url>
+    <url>/2022/08/28/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/002-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BPageHelper.startPage/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
 <p>PageHelper是MyBatis的分页插件，它能够帮助我们快速且简洁的实现分页功能。传统的分页都需要我们程序员手动在sql语句里写LIMIT语句，而PageHelper这个插件能够帮助我们过滤sql，自动添加LIMIT语句，使得sql语句看上去更加简洁，具体实现方法如下（注意：PageHelper必须在sql语句前使用，否则过滤无效）</p>
 <p>例句：</p>
@@ -741,7 +848,7 @@
   </entry>
   <entry>
     <title>模块化之校验JWT令牌</title>
-    <url>/2022/08/28/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BJWT%E6%A0%A1%E9%AA%8C/</url>
+    <url>/2022/08/28/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/001-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BJWT%E6%A0%A1%E9%AA%8C/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
 <p>实现思路梳理：</p>
 <h5 id="1、前端请求后端接口，在请求头中携带JWT令牌"><a href="#1、前端请求后端接口，在请求头中携带JWT令牌" class="headerlink" title="1、前端请求后端接口，在请求头中携带JWT令牌"></a>1、前端请求后端接口，在请求头中携带JWT令牌</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//创建jwt令牌  </span></span><br><span class="line"><span class="type">String</span> <span class="variable">token</span> <span class="operator">=</span> JwtUtil.createJWT(<span class="string">&quot;itcast&quot;</span>,<span class="number">1000</span> * <span class="number">60</span> * <span class="number">60</span>, claims);</span><br></pre></td></tr></table></figure>
@@ -767,20 +874,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JWT工具类</title>
-    <url>/2022/08/28/%E5%B7%A5%E5%85%B7%E7%B1%BB/JWT%E5%B7%A5%E5%85%B7%E7%B1%BB/</url>
-    <content><![CDATA[<p><strong>导语</strong>：在《娱乐至死》里面两个著名的预言：奥威尔害怕的是真理被隐瞒，赫胥黎担心的是真理被淹没在无聊烦琐的世事中。在互联网的世界里，我们恰恰走向了赫胥黎式的预言，有时候百度两小时，有效资讯五分钟。在工具类这个栏目，我想收集一些常用的Utils，以免书到用时方恨少的尴尬！</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JwtUtil</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成jwt</span></span><br><span class="line"><span class="comment">     * 使用Hs256算法, 私匙使用固定秘钥</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> secretKey jwt秘钥</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ttlMillis jwt过期时间(毫秒)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> claims    设置的信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">createJWT</span><span class="params">(String secretKey, <span class="type">long</span> ttlMillis, Map&lt;String, Object&gt; claims)</span> &#123;</span><br><span class="line">        <span class="comment">// 指定签名的时候使用的签名算法，也就是header那部分</span></span><br><span class="line">        <span class="type">SignatureAlgorithm</span> <span class="variable">signatureAlgorithm</span> <span class="operator">=</span> SignatureAlgorithm.HS256;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成JWT的时间</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">expMillis</span> <span class="operator">=</span> System.currentTimeMillis() + ttlMillis;</span><br><span class="line">        <span class="type">Date</span> <span class="variable">exp</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(expMillis);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置jwt的body</span></span><br><span class="line">        <span class="type">JwtBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> Jwts.builder()</span><br><span class="line">                <span class="comment">// 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的</span></span><br><span class="line">                .setClaims(claims)</span><br><span class="line">                <span class="comment">// 设置签名使用的签名算法和签名使用的秘钥</span></span><br><span class="line">                .signWith(signatureAlgorithm, secretKey.getBytes(StandardCharsets.UTF_8))</span><br><span class="line">                <span class="comment">// 设置过期时间</span></span><br><span class="line">                .setExpiration(exp);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> builder.compact();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Token解密</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> secretKey jwt秘钥 此秘钥一定要保留好在服务端, 不能暴露出去, 否则sign就可以被伪造, 如果对接多个客户端建议改造成多个</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> token     加密后的token</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Claims <span class="title function_">parseJWT</span><span class="params">(String secretKey, String token)</span> &#123;</span><br><span class="line">        <span class="comment">// 得到DefaultJwtParser</span></span><br><span class="line">        <span class="type">Claims</span> <span class="variable">claims</span> <span class="operator">=</span> Jwts.parser()</span><br><span class="line">                <span class="comment">// 设置签名的秘钥</span></span><br><span class="line">                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))</span><br><span class="line">                <span class="comment">// 设置需要解析的jwt</span></span><br><span class="line">                .parseClaimsJws(token).getBody();</span><br><span class="line">        <span class="keyword">return</span> claims;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>工具类</category>
-      </categories>
-      <tags>
-        <tag>Util</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>UUID工具类</title>
     <url>/2022/08/28/%E5%B7%A5%E5%85%B7%E7%B1%BB/UUID%E5%B7%A5%E5%85%B7%E7%B1%BB/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《娱乐至死》里面两个著名的预言：奥威尔害怕的是真理被隐瞒，赫胥黎担心的是真理被淹没在无聊烦琐的世事中。在互联网的世界里，我们恰恰走向了赫胥黎式的预言，有时候百度两小时，有效资讯五分钟。在工具类这个栏目，我想收集一些常用的Utils，以免书到用时方恨少的尴尬！</p>
@@ -795,8 +888,22 @@
       </tags>
   </entry>
   <entry>
+    <title>JWT工具类</title>
+    <url>/2022/08/28/%E5%B7%A5%E5%85%B7%E7%B1%BB/JWT%E5%B7%A5%E5%85%B7%E7%B1%BB/</url>
+    <content><![CDATA[<p><strong>导语</strong>：在《娱乐至死》里面两个著名的预言：奥威尔害怕的是真理被隐瞒，赫胥黎担心的是真理被淹没在无聊烦琐的世事中。在互联网的世界里，我们恰恰走向了赫胥黎式的预言，有时候百度两小时，有效资讯五分钟。在工具类这个栏目，我想收集一些常用的Utils，以免书到用时方恨少的尴尬！</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JwtUtil</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成jwt</span></span><br><span class="line"><span class="comment">     * 使用Hs256算法, 私匙使用固定秘钥</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> secretKey jwt秘钥</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ttlMillis jwt过期时间(毫秒)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> claims    设置的信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">createJWT</span><span class="params">(String secretKey, <span class="type">long</span> ttlMillis, Map&lt;String, Object&gt; claims)</span> &#123;</span><br><span class="line">        <span class="comment">// 指定签名的时候使用的签名算法，也就是header那部分</span></span><br><span class="line">        <span class="type">SignatureAlgorithm</span> <span class="variable">signatureAlgorithm</span> <span class="operator">=</span> SignatureAlgorithm.HS256;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成JWT的时间</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">expMillis</span> <span class="operator">=</span> System.currentTimeMillis() + ttlMillis;</span><br><span class="line">        <span class="type">Date</span> <span class="variable">exp</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(expMillis);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置jwt的body</span></span><br><span class="line">        <span class="type">JwtBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> Jwts.builder()</span><br><span class="line">                <span class="comment">// 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的</span></span><br><span class="line">                .setClaims(claims)</span><br><span class="line">                <span class="comment">// 设置签名使用的签名算法和签名使用的秘钥</span></span><br><span class="line">                .signWith(signatureAlgorithm, secretKey.getBytes(StandardCharsets.UTF_8))</span><br><span class="line">                <span class="comment">// 设置过期时间</span></span><br><span class="line">                .setExpiration(exp);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> builder.compact();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Token解密</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> secretKey jwt秘钥 此秘钥一定要保留好在服务端, 不能暴露出去, 否则sign就可以被伪造, 如果对接多个客户端建议改造成多个</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> token     加密后的token</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Claims <span class="title function_">parseJWT</span><span class="params">(String secretKey, String token)</span> &#123;</span><br><span class="line">        <span class="comment">// 得到DefaultJwtParser</span></span><br><span class="line">        <span class="type">Claims</span> <span class="variable">claims</span> <span class="operator">=</span> Jwts.parser()</span><br><span class="line">                <span class="comment">// 设置签名的秘钥</span></span><br><span class="line">                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))</span><br><span class="line">                <span class="comment">// 设置需要解析的jwt</span></span><br><span class="line">                .parseClaimsJws(token).getBody();</span><br><span class="line">        <span class="keyword">return</span> claims;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>工具类</category>
+      </categories>
+      <tags>
+        <tag>Util</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swagger文档生成操作SOP</title>
-    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/Swagger%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E6%93%8D%E4%BD%9CSOP/</url>
+    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/008-Swagger%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E6%93%8D%E4%BD%9CSOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <h3 id="1、Swagger是什么？"><a href="#1、Swagger是什么？" class="headerlink" title="1、Swagger是什么？"></a>1、Swagger是什么？</h3><p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。</p>
 <h6 id="Swagger的作用："><a href="#Swagger的作用：" class="headerlink" title="Swagger的作用："></a>Swagger的作用：</h6><blockquote>
@@ -829,7 +936,7 @@
   </entry>
   <entry>
     <title>Redis下载与安装SOP</title>
-    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/Redis%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85SOP/</url>
+    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/006-Redis%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85SOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <h4 id="1-Redis下载"><a href="#1-Redis下载" class="headerlink" title="1 Redis下载"></a>1 Redis下载</h4><p>Redis安装包分为windows版和Linux版：</p>
 <ul>
@@ -889,7 +996,7 @@
   </entry>
   <entry>
     <title>IDEA之自定义模板SOP</title>
-    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/IDEA%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BFSOP/</url>
+    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/003-IDEA%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BFSOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <h6 id="自定义模板可以把复杂重复的代码放进去，加快我们程序员的开发效率。"><a href="#自定义模板可以把复杂重复的代码放进去，加快我们程序员的开发效率。" class="headerlink" title="自定义模板可以把复杂重复的代码放进去，加快我们程序员的开发效率。"></a>自定义模板可以把复杂重复的代码放进去，加快我们程序员的开发效率。</h6><p>图1：<br><img src="https://img-blog.csdnimg.cn/9e8ba730427b464f8af8dfdc65fc9df3.png#pic_center" alt="在这里插入图片描述"></p>
 <p>图2：<br><img src="https://img-blog.csdnimg.cn/ef0c2b4c60284c069a96fff17c17dd6f.png#pic_center" alt="在这里插入图片描述"></p>
@@ -904,7 +1011,7 @@
   </entry>
   <entry>
     <title>阿里云对象存储OSS操作SOP</title>
-    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/%E9%98%BF%E9%87%8C%E4%BA%91%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8OSS%E6%93%8D%E4%BD%9CSOP/</url>
+    <url>/2022/08/27/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/009-%E9%98%BF%E9%87%8C%E4%BA%91%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8OSS%E6%93%8D%E4%BD%9CSOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <h4 id="1、介绍"><a href="#1、介绍" class="headerlink" title="1、介绍"></a>1、介绍</h4><p>阿里云对象存储OSS（Object Storage Service）是一款海量、安全、低成本、高可靠的云存储服务，提供99.9999999999%(12个9)的数据持久性，99.995%的数据可用性。多种存储类型供选择，全面优化存储成本。</p>
 <p>阿里云网址：<code>https://www.aliyun.com/</code></p>
@@ -932,7 +1039,7 @@
   </entry>
   <entry>
     <title>模块化之Swagger文档生成</title>
-    <url>/2022/08/26/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BSwagger%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90/</url>
+    <url>/2022/08/26/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/003-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8BSwagger%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
 <h3 id="1、Swagger是什么？"><a href="#1、Swagger是什么？" class="headerlink" title="1、Swagger是什么？"></a>1、Swagger是什么？</h3><p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。</p>
 <h6 id="Swagger的作用："><a href="#Swagger的作用：" class="headerlink" title="Swagger的作用："></a>Swagger的作用：</h6><blockquote>
@@ -965,7 +1072,7 @@
   </entry>
   <entry>
     <title>自定义简单的Starter启动器</title>
-    <url>/2022/08/26/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AE%80%E5%8D%95%E7%9A%84Starter%E5%90%AF%E5%8A%A8%E5%99%A8/</url>
+    <url>/2022/08/26/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/002-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AE%80%E5%8D%95%E7%9A%84Starter%E5%90%AF%E5%8A%A8%E5%99%A8/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《通往java之路》这个栏目，我不想表现出更多的功利主义。我希望在这个栏目中每一篇文章都有很强的可读性和趣味性，能让我闲暇之时也能好好的阅读。</p>
 <h5 id="1、创建一个Maven工程"><a href="#1、创建一个Maven工程" class="headerlink" title="1、创建一个Maven工程"></a>1、创建一个Maven工程</h5><p><img src="https://img-blog.csdnimg.cn/3c684a5c63f04e1ea8efdada6e934eee.png#pic_center" alt="在这里插入图片描述"></p>
 <h5 id="2、导入Spring的关键必要的依赖"><a href="#2、导入Spring的关键必要的依赖" class="headerlink" title="2、导入Spring的关键必要的依赖"></a>2、导入Spring的关键必要的依赖</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--导入父依赖--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--注解处理器:生成配置元数据--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -994,7 +1101,7 @@
   </entry>
   <entry>
     <title>德鲁克谈【自我管理】史上最受欢迎的文章</title>
-    <url>/2022/08/26/%E6%AF%8F%E5%91%A8%E8%BD%AC%E8%BD%BD/%E5%BE%B7%E9%B2%81%E5%85%8B%E8%B0%88%E3%80%90%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E3%80%91%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%8F%97%E6%AC%A2%E8%BF%8E%E7%9A%84%E6%96%87%E7%AB%A0/</url>
+    <url>/2022/08/26/%E6%AF%8F%E5%91%A8%E8%BD%AC%E8%BD%BD/001-%E5%BE%B7%E9%B2%81%E5%85%8B%E8%B0%88%E3%80%90%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E3%80%91%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%8F%97%E6%AC%A2%E8%BF%8E%E7%9A%84%E6%96%87%E7%AB%A0/</url>
     <content><![CDATA[<p><strong>导读</strong>：本文最早刊登于《哈佛商业评论》，是其历史最佳文章之一。作者彼得·德鲁克是现代管理学之父，其著作影响了数代追求创新以及最佳管理实践的学者和企业家们，各类商业管理课程也都深受彼得·德鲁克思想的影响。本文后被收录在德鲁克的著作《21 世纪的管理挑战》中。非常值得一读再读。</p>
 <p>我们生活的时代充满着前所未有的机会：<strong>如果你有雄心，又不乏智慧，那么不管你从何处起步，你都可以沿着自己所选择的道路登上事业的顶峰。</strong></p>
 <p>不过，有了机会，也就有了责任。今天的公司并不怎么管员工的职业发展；实际上，知识工作者必须成为自己的首席执行官。你应该在公司中开辟自己的天地，知道何时改变发展道路，并在可能长达 50 年的职业生涯中不断努力、干出实绩。</p>
@@ -1173,7 +1280,7 @@
   </entry>
   <entry>
     <title>Linux搭建java环境SOP</title>
-    <url>/2022/08/25/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/Linux%E6%90%AD%E5%BB%BAjava%E7%8E%AF%E5%A2%83SOP/</url>
+    <url>/2022/08/25/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/004-Linux%E6%90%AD%E5%BB%BAjava%E7%8E%AF%E5%A2%83SOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <ul>
 <li><p>软件安装</p>
@@ -1840,7 +1947,7 @@
   </entry>
   <entry>
     <title>SpringBoot之入门案例</title>
-    <url>/2022/08/25/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/SpringBoot%E4%B9%8B%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/</url>
+    <url>/2022/08/25/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/003-SpringBoot%E4%B9%8B%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《通往java之路》这个栏目，我不想表现出更多的功利主义。我希望在这个栏目中每一篇文章都有很强的可读性和趣味性，能让我闲暇之时也能好好的阅读。</p>
 <h3 id="1、导入依赖"><a href="#1、导入依赖" class="headerlink" title="1、导入依赖"></a>1、导入依赖</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"> <span class="comment">&lt;!--1. 凡是springboot项目都必须要继承一个父模块--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.12.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 2. 以后你需要使用哪个框架，那么就导入对应框架的启动器即可。</span></span><br><span class="line"><span class="comment"> 比如：springmvc - starter-web--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -1861,7 +1968,7 @@
   </entry>
   <entry>
     <title>SpringBoot之java打包SOP</title>
-    <url>/2022/08/25/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/SpringBoot%E4%B9%8Bjava%E6%89%93%E5%8C%85SOP/</url>
+    <url>/2022/08/25/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/007-SpringBoot%E4%B9%8Bjava%E6%89%93%E5%8C%85SOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <h3 id="第一、先配置Maven环境变量"><a href="#第一、先配置Maven环境变量" class="headerlink" title="第一、先配置Maven环境变量"></a>第一、先配置Maven环境变量</h3><p><strong>图1：点击高级系统设置</strong><br><img src="https://img-blog.csdnimg.cn/8fdc10cdb43f41a9aa3a1c95bee3a104.png#pic_center" alt="在这里插入图片描述"></p>
 <p><strong>图2：点击环境变量</strong><br><img src="https://img-blog.csdnimg.cn/ad233281f95249cf902791dbdf6947c4.png#pic_center" alt="在这里插入图片描述"></p>
@@ -1887,28 +1994,8 @@
       </tags>
   </entry>
   <entry>
-    <title>世界级天后中岛美雪的歌曲</title>
-    <url>/2022/08/24/%E4%B8%89%E5%8D%83%E4%B8%96%E7%95%8C/%E4%B8%96%E7%95%8C%E7%BA%A7%E5%A4%A9%E5%90%8E%E4%B8%AD%E5%B2%9B%E7%BE%8E%E9%9B%AA%E7%9A%84%E6%AD%8C%E6%9B%B2/</url>
-    <content><![CDATA[<p><strong>中岛美雪号称养活了半个华语娱乐圈的人</strong>！中岛美雪，这个名字或许你会觉得陌生，但很多歌曲就是翻唱她的。<br>(1)比如邓丽君的《漫步人生路》，是根据中岛美雪1980年的单曲《习惯孤独》改编的，这首单曲曾创下了40万张销量的奇迹。<br>(2)1992年，《容易受伤的女人》红遍香港，王菲在各大音乐颁奖礼中获奖无数，就此跃入香港一线女歌手的行列。这首歌的原版歌曲《口红》，同样是中岛美雪作词、作曲并演唱的。<br>(3)还有范玮琪这首旋律激昂，引发无数听众共鸣的《最初的梦想》，日文原版名为《骑在银龙的背上》，中岛美雪用这首歌歌颂了一位孤岛医生，用“银龙飞跃”的形象，表达了对善良、纯真的追求与向往。</p>
-<p>话不多说，一起来听一下我选出来的三首经典歌曲吧！！！</p>
-<h5 id="第一首《骑在银龙的背上》"><a href="#第一首《骑在银龙的背上》" class="headerlink" title="第一首《骑在银龙的背上》"></a>第一首《骑在银龙的背上》</h5><div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;"><iframe src="//player.bilibili.com/player.html?aid=69799435&bvid=BV1pE411Q7TQ&cid=269615233&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-</div>
-
-<h5 id="第二首《幸福》"><a href="#第二首《幸福》" class="headerlink" title="第二首《幸福》"></a>第二首《幸福》</h5><div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;"><iframe src="//player.bilibili.com/player.html?aid=628262163&bvid=BV1Qt4y1k7E9&cid=271284248&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-</div>
-
-<h5 id="第三首《ひとり上手》漫步人生路原曲"><a href="#第三首《ひとり上手》漫步人生路原曲" class="headerlink" title="第三首《ひとり上手》漫步人生路原曲"></a>第三首《ひとり上手》漫步人生路原曲</h5><div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;"><iframe src="//player.bilibili.com/player.html?aid=841414544&bvid=BV1C54y1q7QU&cid=215222372&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-</div>]]></content>
-      <categories>
-        <category>三千世界</category>
-      </categories>
-      <tags>
-        <tag>歌曲</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux安装和SSH连接工具使用SOP</title>
-    <url>/2022/08/24/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/Linux%E5%AE%89%E8%A3%85%E5%92%8CSSH%E8%BF%9E%E6%8E%A5%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8SOP/</url>
+    <url>/2022/08/24/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/005-Linux%E5%AE%89%E8%A3%85%E5%92%8CSSH%E8%BF%9E%E6%8E%A5%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8SOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <h3 id="1-1-安装方式介绍"><a href="#1-1-安装方式介绍" class="headerlink" title="1.1 安装方式介绍"></a>1.1 安装方式介绍</h3><p>Linux系统的安装方式，主要包含以下两种：</p>
 <p><img src="https://img-blog.csdnimg.cn/362a0c47299849cb8098c912a5ac5729.png#pic_center" alt="在这里插入图片描述"></p>
@@ -2124,7 +2211,7 @@
   </entry>
   <entry>
     <title>Springboot自动装配的原理</title>
-    <url>/2022/08/24/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/Springboot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E7%9A%84%E5%8E%9F%E7%90%86%E4%B9%8B%E6%BA%90%E7%A0%81%E8%AE%B2%E8%A7%A3/</url>
+    <url>/2022/08/24/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/005-Springboot%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E7%9A%84%E5%8E%9F%E7%90%86%E4%B9%8B%E6%BA%90%E7%A0%81%E8%AE%B2%E8%A7%A3/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《通往java之路》这个栏目，我不想表现出更多的功利主义。我希望在这个栏目中每一篇文章都有很强的可读性和趣味性，能让我闲暇之时也能好好的阅读。</p>
 <h3 id="一、springboot是如何实现自动装配的呢-？"><a href="#一、springboot是如何实现自动装配的呢-？" class="headerlink" title="一、springboot是如何实现自动装配的呢 ？"></a>一、springboot是如何实现自动装配的呢 ？</h3><h5 id="1、-SpringBootApplication注解"><a href="#1、-SpringBootApplication注解" class="headerlink" title="1、@SpringBootApplication注解"></a>1、@SpringBootApplication注解</h5><p>首先我们得看源码，springboot类中有一个注解<code>@SpringBootApplication</code>,这是一个组合注解。我们点击进去看一下：<br>图1：<br><img src="https://img-blog.csdnimg.cn/7c13fd147fdf4822a72e57eb91cbff10.png#pic_center" alt="在这里插入图片描述"></p>
 <p>图2：点进去之后可以看到如下图<br><img src="https://img-blog.csdnimg.cn/1ce9583c02b54ac0a42ec3636e6f8d12.png#pic_center" alt="在这里插入图片描述"></p>
@@ -2478,26 +2565,8 @@
       </tags>
   </entry>
   <entry>
-    <title>模块化之消息转换器</title>
-    <url>/2022/08/22/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8B%E6%B6%88%E6%81%AF%E8%BD%AC%E6%8D%A2%E5%99%A8/</url>
-    <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
-<p>这个是把数据库的数据通过对象返给前端，会出现下列没有转换的现象</p>
-<p><img src="https://img-blog.csdnimg.cn/a9d34256a5d4452fbd615663473e8f89.png#pic_center" alt="在这里插入图片描述"></p>
-<p>这个需要我们加入消息转换器进行转换，把Java对象转为json字符串，在配置类加入这段代码就可以解决了。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 扩展mvc框架的消息转换器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> converters</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">extendMessageConverters</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;开始扩展消息转换器...&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建一个消息转化器对象</span></span><br><span class="line">    <span class="type">MappingJackson2HttpMessageConverter</span> <span class="variable">converter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MappingJackson2HttpMessageConverter</span>();</span><br><span class="line">    <span class="comment">//设置对象转换器，可以将Java对象转为json字符串</span></span><br><span class="line">    converter.setObjectMapper(<span class="keyword">new</span> <span class="title class_">JacksonObjectMapper</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将我们自己的转换器放入spring MVC框架的容器中</span></span><br><span class="line">    converters.add(<span class="number">0</span>,converter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>项目模块化</category>
-      </categories>
-      <tags>
-        <tag>模块化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>模块化之自定义注解</title>
-    <url>/2022/08/22/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/</url>
+    <url>/2022/08/22/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/005-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
 <p><strong>自定义注解就是一个标记，需要通过具体的代码去实现这个注解的用途。</strong></p>
 <h5 id="案例说明"><a href="#案例说明" class="headerlink" title="案例说明"></a>案例说明</h5><h6 id="先定义一个自定义注解"><a href="#先定义一个自定义注解" class="headerlink" title="先定义一个自定义注解"></a>先定义一个自定义注解</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> IgnoreToken &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -2514,8 +2583,26 @@
       </tags>
   </entry>
   <entry>
+    <title>模块化之消息转换器</title>
+    <url>/2022/08/22/%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E5%8C%96/006-%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B9%8B%E6%B6%88%E6%81%AF%E8%BD%AC%E6%8D%A2%E5%99%A8/</url>
+    <content><![CDATA[<p><strong>导语</strong>：所谓模块化是针对在项目里面出现的各种问题，提供的一个模板操作，跟SOP很相似，用于指导和规范日常的工作流程。对于程序开发者来说，建立项目模块化系统，有助于提高开发效率。</p>
+<p>这个是把数据库的数据通过对象返给前端，会出现下列没有转换的现象</p>
+<p><img src="https://img-blog.csdnimg.cn/a9d34256a5d4452fbd615663473e8f89.png#pic_center" alt="在这里插入图片描述"></p>
+<p>这个需要我们加入消息转换器进行转换，把Java对象转为json字符串，在配置类加入这段代码就可以解决了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 扩展mvc框架的消息转换器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> converters</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">extendMessageConverters</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> &#123;</span><br><span class="line">    log.info(<span class="string">&quot;开始扩展消息转换器...&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建一个消息转化器对象</span></span><br><span class="line">    <span class="type">MappingJackson2HttpMessageConverter</span> <span class="variable">converter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MappingJackson2HttpMessageConverter</span>();</span><br><span class="line">    <span class="comment">//设置对象转换器，可以将Java对象转为json字符串</span></span><br><span class="line">    converter.setObjectMapper(<span class="keyword">new</span> <span class="title class_">JacksonObjectMapper</span>());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将我们自己的转换器放入spring MVC框架的容器中</span></span><br><span class="line">    converters.add(<span class="number">0</span>,converter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>项目模块化</category>
+      </categories>
+      <tags>
+        <tag>模块化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>状态码大全</title>
-    <url>/2022/08/22/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/</url>
+    <url>/2022/08/22/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/001-%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《通往java之路》这个栏目，我不想表现出更多的功利主义。我希望在这个栏目中每一篇文章都有很强的可读性和趣味性，能让我闲暇之时也能好好的阅读。</p>
 <h3 id="一、状态码大类"><a href="#一、状态码大类" class="headerlink" title="一、状态码大类"></a>一、状态码大类</h3><table>
 <thead>
@@ -2630,7 +2717,7 @@
   </entry>
   <entry>
     <title>IDEA安装SOP</title>
-    <url>/2022/08/21/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/IDEA%E5%AE%89%E8%A3%85SOP/</url>
+    <url>/2022/08/21/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/001-IDEA%E5%AE%89%E8%A3%85SOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <p>可以自行到官方网站自行下载，网址为：<a href="https://www.jetbrains.com/idea">https://www.jetbrains.com/idea</a><br>本文演示的IDEA版本为 IntelliJ IDEA 2021.1.1 x64</p>
 <h3 id="2、安装IDEA图解"><a href="#2、安装IDEA图解" class="headerlink" title="2、安装IDEA图解"></a>2、安装IDEA图解</h3><h5 id="2-1双击安装包，点击next"><a href="#2-1双击安装包，点击next" class="headerlink" title="2.1双击安装包，点击next"></a>2.1双击安装包，点击next</h5><p><img src="https://img-blog.csdnimg.cn/a7f6748c720e4376a9cba9ce1ea34eca.png#pic_center" alt="在这里插入图片描述"></p>
@@ -2656,7 +2743,7 @@
   </entry>
   <entry>
     <title>JDK环境变量配置SOP</title>
-    <url>/2022/08/21/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/JDK%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AESOP/</url>
+    <url>/2022/08/21/SOP%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/002-JDK%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AESOP/</url>
     <content><![CDATA[<p><strong>导语</strong>：所谓SOP，是 Standard Operating Procedure三个单词中首字母的大写 ，即标准作业程序，指将某一事件的标准操作步骤和要求以统一的格式描述出来，用于指导和规范日常的工作。对于程序开发者来说，建立SOP系统，有助于快速配置相关属性，提高开发效率。</p>
 <h3 id="1、按下Win键-E，找到计算机"><a href="#1、按下Win键-E，找到计算机" class="headerlink" title="1、按下Win键+E，找到计算机"></a>1、按下Win键+E，找到计算机</h3><p><img src="https://img-blog.csdnimg.cn/2d617c7031754c3d8b3f978337fbb87a.png#pic_center" alt="在这里插入图片描述"></p>
 <h3 id="2、鼠标右键点击计算机，选择属性"><a href="#2、鼠标右键点击计算机，选择属性" class="headerlink" title="2、鼠标右键点击计算机，选择属性"></a>2、鼠标右键点击计算机，选择属性</h3><p><img src="https://img-blog.csdnimg.cn/c9c27ce5def84d608c5928a72c9012ba.png#pic_center" alt="在这里插入图片描述"></p>
@@ -2721,7 +2808,7 @@
   </entry>
   <entry>
     <title>详解缓存穿透、缓存雪崩、缓存击穿</title>
-    <url>/2022/08/17/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/%E8%AF%A6%E8%A7%A3%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF/</url>
+    <url>/2022/08/17/%E9%80%9A%E5%BE%80java%E4%B9%8B%E8%B7%AF/006-%E8%AF%A6%E8%A7%A3%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF/</url>
     <content><![CDATA[<p><strong>导语</strong>：在《通往java之路》这个栏目，我不想表现出更多的功利主义。我希望在这个栏目中每一篇文章都有很强的可读性和趣味性，能让我闲暇之时也能好好的阅读。</p>
 <p><strong>正文</strong>：当我们使用缓存时，目标通常有两个：第一，提升响应效率和并发量；第二，减轻数据库的压力。<strong>缓存穿透</strong>、<strong>缓存雪崩</strong>和<strong>缓存击穿</strong>的发生，都是因为在某些特殊情况下，缓存失去了预期的功能所致。当缓存失效或没有抵挡住流量，流量直接涌入到数据库，在高并发的情况下，可能直接击垮数据库，导致整个系统崩溃！</p>
 <h3 id="一、什么叫缓存穿透？"><a href="#一、什么叫缓存穿透？" class="headerlink" title="一、什么叫缓存穿透？"></a>一、什么叫缓存穿透？</h3><h5 id="缓存穿透的定义"><a href="#缓存穿透的定义" class="headerlink" title="缓存穿透的定义"></a>缓存穿透的定义</h5><p>用户访问的数据既不在缓存当中，也不在数据库中。出于容错的考虑，如果从底层数据库查询不到数据，则不写入缓存。这就导致每次请求都会到底层数据库进行查询，缓存也失去了意义。当高并发或有人利用不存在的Key频繁攻击时，数据库的压力骤增，甚至崩溃，这就是<strong>缓存穿透</strong>！</p>
